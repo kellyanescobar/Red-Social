@@ -2,6 +2,7 @@ package red.social;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 public class PantallaInicial extends javax.swing.JFrame {
 
     

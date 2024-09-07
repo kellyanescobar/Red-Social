@@ -1,161 +1,165 @@
 package red.social;
 
+
+import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.JOptionPane;
 
 public class Login{
     private String Nombre;
-    private char Genero;
-    private String[]Usuario=new String[100];
-    private String[]Contraseña=new String[100];
-    private String[] FechaIngreso=new String[100];
-    private int Edad;
-    private boolean[]Activa=new boolean[100];
-    private static int Contar=0;
-    private String MasUsuarios;
-    private String OtraContra;
-    
+    private String Genero;
+    private String Edad;
+    private String Usuario;
+    private String Contra;
+    private static Login UsuarioRegistrado;
+    private String FechaIngreso;
+    private boolean Activo;
+    private static String[] Usuarios = new String[100];
+    private static String[] Contraseñas = new String[100];
+    private static String[] FechasIngresos = new String[100];
+    private static boolean[] Activos = new boolean[100];
+    private static int Contar = 0;
+
     public Login() {
-        
     }
 
-    public Login(String Nombre, char Genero, String Usuario, String Contraseña, Date FechaIngreso, int Edad, boolean Activa) {
-        this.Nombre = Nombre;
-        this.Genero = Genero;
-        this.Edad = Edad;
-        this.MasUsuarios= Usuario;
-        this.OtraContra=Contraseña;
-        
+    public Login(String user, String password) {
+        this.Usuario = user;
+        this.Contra = password;
+        this.FechaIngreso = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        this.Activo = true;
     }
 
-    public String getNombre() {
-        return Nombre;
-    }
-
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
-    }
-
-    public char getGenero() {
-        return Genero;
-    }
-
-    public void setGenero(char Genero) {
-        this.Genero = Genero;
-    }
-
-    public String[] getUsuario() {
+    public String getUsuario() {
         return Usuario;
     }
 
-    public void setUsuario(String[] Usuario) {
-        this.Usuario = Usuario;
+    public String getPassword() {
+        return Contra;
     }
 
-    public String[] getContraseña() {
-        return Contraseña;
+
+    public String [] getFechaIngreso() {
+        return FechasIngresos;
     }
 
-    public void setContraseña(String[] Contraseña) {
-        this.Contraseña = Contraseña;
+    public boolean Activo() {
+        return Activo;
     }
 
-    public String[] getFecha() {
-        return FechaIngreso;
-    }
-
-    public void setFecha(String[] Fecha) {
-        this.FechaIngreso = Fecha;
-    }
-
-    public int getEdad() {
-        return Edad;
-    }
-
-    public void setEdad(int Edad) {
-        this.Edad = Edad;
-    }
-
-    public boolean[] isActiva() {
-        return Activa;
-    }
-
-    public void setActiva(boolean[] Activa) {
-        this.Activa = Activa;
-    }
-    
-    public String MasUsuarios(){
-        return MasUsuarios;
-    }
-    
-    //Se llama a la clase pantalla
-    public boolean CrearUsuario(String Usuario, String Contraseña) {
-        if (Usuario.length() == 0 || Contraseña.length() != 8) {
-            JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña no validos. La contraseña debe tener exactamente 5 caracteres.");
+    // Método para cambiar la contraseña
+    public boolean CambiarContraseña(String nuevaContraseña) {
+        if (nuevaContraseña.length() != 5) {
+            JOptionPane.showMessageDialog(null, "La contraseña debe tener exactamente 5 caracteres.");
             return false;
         }
+        this.Contra = nuevaContraseña;
+        JOptionPane.showMessageDialog(null, "Contraseña cambiada exitosamente.");
+        return true;
+    }
 
-        for (int i = 0; i < Contar; i++) {
-            if (this.Usuario[i].equalsIgnoreCase(Usuario)) {
+    // Método para cambiar el nombre de usuario
+    public boolean CambiarUsuario(String nuevoUsuario) {
+        for (int i = 0; i <Contar; i++) {
+            if (Usuarios[i].equalsIgnoreCase(nuevoUsuario)) {
                 JOptionPane.showMessageDialog(null, "El usuario ya existe, favor elegir otro Nombre de Usuario");
                 return false;
             }
         }
-
-        if (Contar < this.Usuario.length) {
-            this.Usuario[Contar] = Usuario;
-            this.Contraseña[Contar] = Contraseña;
-            this.FechaIngreso[Contar] = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-            this.Activa[Contar] = true;
-            this.Contar++;
-            JOptionPane.showMessageDialog(null, "Usuario Exitosamente Registrado");
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, "No se pueden registrar mas usuarios.");
-            return false;
-        }    
+        this.Usuario = nuevoUsuario;
+        JOptionPane.showMessageDialog(null, "Nombre de usuario cambiado exitosamente.");
+        return true;
     }
-    
-    public boolean CambiarUsuario( String NuevoUsuario){
-        
-            for(int usuario=0; usuario<Contar; usuario++){
-                if(this.Usuario[usuario].equalsIgnoreCase(NuevoUsuario)){
-               
-                    JOptionPane.showMessageDialog(null,"El usuario ya existe, Elija otro nombre");
-                    return false;
-                }
-            }
-            for (int nombre=0; nombre<Contar; nombre++) {
-            if (this.Usuario[nombre].equalsIgnoreCase(this.MasUsuarios)) {
-                this.Usuario[nombre]=NuevoUsuario;
-                JOptionPane.showMessageDialog(null, "Nombre de usuario cambiado exitosamente");
-                return true;
-            }
-        }
-            return true;
-        }
 
-        public boolean eliminarCuenta() {
+    // Método para eliminar la cuenta
+    public boolean EliminarCuenta() {
     boolean eliminacionExitosa = false;
-    for (int i = 0; i < Contar; i++) {
-        if (Usuario[i].equalsIgnoreCase(MasUsuarios)) {
-            Usuario[i] = null;
-            Contraseña[i] = null;
-            FechaIngreso[i] = null;
-            Activa[i] = false;
-            MasUsuarios = null;
-            OtraContra = null;
-            int puntos = 0;
-            Object FechaEntrada = null;
-            boolean activo = false;
+    for (int i = 0; i <Contar; i++) {
+        if (Usuarios[i].equalsIgnoreCase(Usuario)) {
+            Usuarios[i] = null;
+            Contraseñas[i] = null;
+            FechasIngresos[i] = null;
+            Activos[i] = false;
+            Usuario = null;
+            Contra = null;
+            FechaIngreso = null;
+            Activo = false;
             JOptionPane.showMessageDialog(null, "Cuenta eliminada exitosamente.");
             eliminacionExitosa = true;
             break;
         }
     }
     return eliminacionExitosa;
-     }    
+}
+    
+    
+  
+    //de aqui empiza el ingreso de datos
+    public boolean IniciaSecion(String usuario, String password) {
+        for (int i = 0; i <Contar; i++) {
+            if (Usuarios[i].equalsIgnoreCase(usuario)) {
+                if (Contraseñas[i].equals(password)) {
+                    this.Usuario = usuario;
+                    this.Contra = password;
+                    this.Activo = true;
+                    UsuarioRegistrado = this;
+                    String message = "Bienvenido " + usuario;
+                    System.out.println(message);
+                    JOptionPane.showMessageDialog(null, message);
+                    return true;
+                } else {
+                    String message = "Contraseña incorrecta";
+                    System.out.println(message);
+                    JOptionPane.showMessageDialog(null, message);
+                    return false;
+                }
+            }
+        }
+        String message = "Favor Registrarse";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return false;
+    }
+    
+    public boolean CrearUsuario(String usuario, String password) {
+        if (usuario.length() == 0 || password.length() != 5) {
+            JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña no válidos. La contraseña debe tener exactamente 5 caracteres.");
+            return false;
+        }
 
-        
-  }
+        for (int i = 0; i <Contar; i++) {
+            if (Usuarios[i].equalsIgnoreCase(usuario)) {
+                JOptionPane.showMessageDialog(null, "El usuario ya existe, favor elegir otro Nombre de Usuario");
+                return false;
+            }
+        }
+
+        if (Contar< Usuarios.length) {
+            Usuarios[Contar] = usuario;
+            Contraseñas[Contar] = password;
+            FechasIngresos[Contar] = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+            Activos[Contar] = true;
+            Contar++;
+            JOptionPane.showMessageDialog(null, "Usuario Registrado");
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "No se pueden registrar más usuarios.");
+            return false;
+        }
+    }
+    
+    
+
+    boolean cambiarNombreUsuario(String nuevoUsuario) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+
+   
+
+    void setText(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+}

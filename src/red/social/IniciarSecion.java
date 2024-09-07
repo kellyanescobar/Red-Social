@@ -2,10 +2,11 @@ package red.social;
 
 public class IniciarSecion extends javax.swing.JFrame {
 
-    
+    private Login log;
     public IniciarSecion() {
         setResizable(false);
         initComponents();
+        log=new Login();
     }
 
     
@@ -114,12 +115,20 @@ public class IniciarSecion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void IngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresarActionPerformed
-        String user= usuario.getText();
-        String pass= contra.getText(); 
+        String User= usuario.getText();
+        String Pass= contra.getText(); 
+        boolean InicioSesionExitoso=log.IniciaSecion(User,Pass);
+        if(InicioSesionExitoso){
+          MenuPrincipal MP=new MenuPrincipal();
+          MP.setVisible(true);
+          this.dispose();  
+        }else{
+        System.out.println("NO tienes una cuenta");
         PantallaInicial l=new PantallaInicial();
         l.setVisible(true);
         this.dispose();
-   
+        
+      }
     }//GEN-LAST:event_IngresarActionPerformed
 
     private void usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioActionPerformed
