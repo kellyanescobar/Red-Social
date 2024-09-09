@@ -1,6 +1,5 @@
 package red.social;
 
-
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +45,16 @@ public class Login{
     public boolean Activo() {
         return Activo;
     }
+    
+    public static String ObtenerNombreUsuarioRegistrado() {
+        if (UsuarioRegistrado != null) {
+            return UsuarioRegistrado.getUsuario();
+        } else {
+            return "Ningun usuario registrado.";
+        }
+    }
 
+    
     // Método para cambiar la contraseña
     public boolean CambiarContraseña(String nuevaContraseña) {
         if (nuevaContraseña.length() != 5) {
@@ -147,6 +155,8 @@ public class Login{
             return false;
         }
     }
+    
+    //Mostrar foto perfil
     
     
 

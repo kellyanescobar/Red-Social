@@ -1,6 +1,5 @@
 package red.social;
 
-
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;

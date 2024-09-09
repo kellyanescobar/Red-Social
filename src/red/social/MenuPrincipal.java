@@ -3,6 +3,7 @@ package red.social;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.awt.BorderLayout;
 
  public class MenuPrincipal extends javax.swing.JFrame {
     DefaultListModel texto=new DefaultListModel();
@@ -10,17 +11,72 @@ import javax.swing.*;
     private JTextArea displayTextArea;
     private JScrollPane displayScrollPane;
     private JPanel jPanell;
+    private JTextArea tweetTexArea;
+    private JLabel displayLabel;
+    private JButton senButton, cancelButton;
+    Login log;
 
     public MenuPrincipal() {
         initComponents();
         initCustomComponents();
          texto=new DefaultListModel();
          twet.setModel(texto);
+         log=new Login();
 
     } 
+    private void creartweet(String username) {
+    // Configuración de la ventana
+    JFrame tweetFrame = new JFrame("Enviar Tweet");
+    tweetFrame.setSize(400, 300);
+    tweetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    tweetFrame.setLayout(new BorderLayout());
 
+    // Crear componentes
+    JTextArea tweetTextArea = new JTextArea(5, 30);
+    JLabel displayLabel = new JLabel("Escribe tu tweet:");
+    JButton sendButton = new JButton("Enviar");
+    JButton cancelButton = new JButton("Cancelar");
+
+    // Panel para los botones
+    JPanel buttonPanel = new JPanel();
+    buttonPanel.add(sendButton);
+    buttonPanel.add(cancelButton);
+
+    // Agregar componentes a la ventana
+    tweetFrame.add(displayLabel, BorderLayout.NORTH);
+    tweetFrame.add(new JScrollPane(tweetTextArea), BorderLayout.CENTER);
+    tweetFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+
+    sendButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String tweet = tweetTextArea.getText();
+            if (!tweet.isEmpty()) {
+                String tweetMessage = username + ": " + tweet;
+                JOptionPane.showMessageDialog(tweetFrame, "Tweet enviado: " + tweetMessage);
+                tweetTextArea.setText(""); 
+            } else {
+                JOptionPane.showMessageDialog(tweetFrame, "El tweet está vacío.");
+            }
+        }
+    });
+
+    // Acción del botón "Cancelar"
+    cancelButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tweetTextArea.setText(""); // Limpiar el área de texto
+            tweetFrame.dispose();
+        }
+    });
+
+    // Mostrar la ventana
+    tweetFrame.setVisible(true);
+}
+
+    
     private void initCustomComponents() {
-        // Crear área de texto para la publicación
         postTextArea = new JTextArea();
         postTextArea.setRows(5);
         postTextArea.setColumns(20);
@@ -270,8 +326,24 @@ import javax.swing.*;
     }//GEN-LAST:event_InteraccionesActionPerformed
 
     private void PublicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublicarActionPerformed
-    String tex=Texto.getText();
-    texto.addElement(tex);        
+    String username = log.ObtenerNombreUsuarioRegistrado(); // Método ficticio, ajusta según tu implementación
+
+    // Obtén el texto del tweet desde el campo de texto
+    String tweetText = Texto.getText();
+
+    // Verifica que el texto no esté vacío
+    if (!tweetText.isEmpty()) {
+        // Crear el mensaje del tweet con el nombre del usuario
+        String tweetMessage = username + ": " + tweetText;
+
+        // Añadir el mensaje del tweet al modelo de lista
+        texto.addElement(tweetMessage);
+
+        // Limpiar el campo de texto después de publicar
+        Texto.setText("");
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.");
+    }        
     }//GEN-LAST:event_PublicarActionPerformed
 
     private void TextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoActionPerformed
@@ -279,7 +351,8 @@ import javax.swing.*;
     }//GEN-LAST:event_TextoActionPerformed
 
     private void TweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TweetActionPerformed
-        // TODO add your handling code here:
+       String username = log.ObtenerNombreUsuarioRegistrado(); 
+    creartweet(username); 
     }//GEN-LAST:event_TweetActionPerformed
 
    
