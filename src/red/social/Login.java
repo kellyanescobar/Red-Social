@@ -13,19 +13,26 @@ public class Login{
     private static Login UsuarioRegistrado;
     private String FechaIngreso;
     private boolean Activo;
-    private static String[] Usuarios = new String[100];
+    static String[] Usuarios = new String[100];
     private static String[] Contraseñas = new String[100];
     private static String[] FechasIngresos = new String[100];
     private static boolean[] Activos = new boolean[100];
-    private static int Contar = 0;
-
+    private String[] Generos=new String[100];
+    static int Contar = 0;
+    
+    private String Hasthtag;
+    private String[] CrearHasthtags=new String[100];
+    private String[] Hasthtags=new String[100];
+    private String[] BuscarUsuarios=new String [100];
+    String getNombre;
     public Login() {
     }
 
-    public Login(String user, String password) {
+    public Login(String user, String password, String genero) {
         this.Usuario = user;
         this.Contra = password;
         this.FechaIngreso = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        this.Genero=genero;
         this.Activo = true;
     }
 
@@ -46,6 +53,7 @@ public class Login{
         return Activo;
     }
     
+    
     public static String ObtenerNombreUsuarioRegistrado() {
         if (UsuarioRegistrado != null) {
             return UsuarioRegistrado.getUsuario();
@@ -57,7 +65,7 @@ public class Login{
     
     // Método para cambiar la contraseña
     public boolean CambiarContraseña(String nuevaContraseña) {
-        if (nuevaContraseña.length() != 5) {
+        if (nuevaContraseña.length()==0) {
             JOptionPane.showMessageDialog(null, "La contraseña debe tener exactamente 5 caracteres.");
             return false;
         }
@@ -129,9 +137,9 @@ public class Login{
         return false;
     }
     
-    public boolean CrearUsuario(String usuario, String password) {
-        if (usuario.length() == 0 || password.length() != 5) {
-            JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña no válidos. La contraseña debe tener exactamente 5 caracteres.");
+    public boolean CrearUsuario(String usuario, String password, String genero) {
+        if (usuario.length() == 0 ) {
+            JOptionPane.showMessageDialog(null, "Nombre de usuario no validos.");
             return false;
         }
 
@@ -147,6 +155,7 @@ public class Login{
             Contraseñas[Contar] = password;
             FechasIngresos[Contar] = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             Activos[Contar] = true;
+            Generos[Contar]=genero;
             Contar++;
             JOptionPane.showMessageDialog(null, "Usuario Registrado");
             return true;
@@ -156,6 +165,27 @@ public class Login{
         }
     }
     
+    public String ObtenerGenero(String usuario){
+      for(int i=0;i<Contar;i++){
+          if(Usuarios[i].equals(usuario)){
+              return Generos[i];
+          }
+      }  
+      return null;
+    }
+    
+    public String ObtenerHasthtags(String hasthtags){
+        for (int i=0;i<Contar;i++){
+            if(Hasthtags[i].equals(hasthtags)){
+                return CrearHasthtags[i];
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    
     //Mostrar foto perfil
     
     
@@ -164,11 +194,19 @@ public class Login{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    
-
-   
-
     void setText(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void setNombre() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    void setUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    String getNombre() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

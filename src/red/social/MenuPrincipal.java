@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 
  public class MenuPrincipal extends javax.swing.JFrame {
     DefaultListModel texto=new DefaultListModel();
@@ -15,7 +16,10 @@ import java.awt.BorderLayout;
     private JLabel displayLabel;
     private JButton senButton, cancelButton;
     Login log;
-
+    
+    //Dia y mes para el tweet
+  
+    
     public MenuPrincipal() {
         initComponents();
         initCustomComponents();
@@ -130,7 +134,6 @@ import java.awt.BorderLayout;
         Perfil = new javax.swing.JButton();
         Tweet = new javax.swing.JButton();
         Interacciones = new javax.swing.JButton();
-        TimeLine = new javax.swing.JButton();
         Hashtags = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
         CerrarSesion = new javax.swing.JToggleButton();
@@ -166,14 +169,6 @@ import java.awt.BorderLayout;
             }
         });
 
-        TimeLine.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        TimeLine.setText("Time Line");
-        TimeLine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TimeLineActionPerformed(evt);
-            }
-        });
-
         Hashtags.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         Hashtags.setText("Hashtags");
         Hashtags.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +201,11 @@ import java.awt.BorderLayout;
                 TextoActionPerformed(evt);
             }
         });
+        Texto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextoKeyTyped(evt);
+            }
+        });
 
         twet.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { " " };
@@ -219,16 +219,12 @@ import java.awt.BorderLayout;
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(logo)
-                                .addComponent(TimeLine, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(Tweet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(4, 4, 4)
@@ -237,14 +233,15 @@ import java.awt.BorderLayout;
                                     .addComponent(Interacciones)
                                     .addComponent(CerrarSesion)
                                     .addComponent(Hashtags, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
-                                .addComponent(Publicar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(jScrollPane3)))))
-                .addGap(14, 14, 14))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Publicar))))
+                    .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,22 +253,21 @@ import java.awt.BorderLayout;
                 .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(TimeLine)
-                        .addGap(18, 18, 18)
+                        .addGap(39, 39, 39)
                         .addComponent(Tweet)
                         .addGap(18, 18, 18)
                         .addComponent(Interacciones)
                         .addGap(18, 18, 18)
                         .addComponent(Perfil)
                         .addGap(18, 18, 18)
-                        .addComponent(Hashtags)
-                        .addGap(170, 170, 170)
-                        .addComponent(CerrarSesion))
+                        .addComponent(Hashtags))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addComponent(CerrarSesion)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -286,20 +282,13 @@ import java.awt.BorderLayout;
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(14, 14, 14))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void TimeLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TimeLineActionPerformed
-        TimeLine tiempo=new TimeLine();
-        tiempo.setVisible(true);
-        this.dispose();
-        
-    }//GEN-LAST:event_TimeLineActionPerformed
 
     private void HashtagsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HashtagsActionPerformed
         Hashtags hash =new Hashtags();
@@ -326,20 +315,14 @@ import java.awt.BorderLayout;
     }//GEN-LAST:event_InteraccionesActionPerformed
 
     private void PublicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublicarActionPerformed
-    String username = log.ObtenerNombreUsuarioRegistrado(); // Método ficticio, ajusta según tu implementación
-
-    // Obtén el texto del tweet desde el campo de texto
+    String username = log.ObtenerNombreUsuarioRegistrado(); 
     String tweetText = Texto.getText();
 
-    // Verifica que el texto no esté vacío
     if (!tweetText.isEmpty()) {
-        // Crear el mensaje del tweet con el nombre del usuario
         String tweetMessage = username + ": " + tweetText;
 
-        // Añadir el mensaje del tweet al modelo de lista
         texto.addElement(tweetMessage);
 
-        // Limpiar el campo de texto después de publicar
         Texto.setText("");
     } else {
         JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.");
@@ -347,13 +330,23 @@ import java.awt.BorderLayout;
     }//GEN-LAST:event_PublicarActionPerformed
 
     private void TextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoActionPerformed
-        // TODO add your handling code here:
+          
+        
     }//GEN-LAST:event_TextoActionPerformed
 
     private void TweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TweetActionPerformed
        String username = log.ObtenerNombreUsuarioRegistrado(); 
-    creartweet(username); 
+       creartweet(username); 
     }//GEN-LAST:event_TweetActionPerformed
+
+    private void TextoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextoKeyTyped
+        if(Texto.getText().length()>=140){
+            evt.consume();
+        Toolkit.getDefaultToolkit().beep();
+        
+    }  
+    //restrincion de los 140 caracteres    
+    }//GEN-LAST:event_TextoKeyTyped
 
    
     public static void main(String args[]) {
@@ -372,7 +365,6 @@ import java.awt.BorderLayout;
     private javax.swing.JButton Perfil;
     private javax.swing.JButton Publicar;
     private javax.swing.JTextField Texto;
-    private javax.swing.JButton TimeLine;
     private javax.swing.JButton Tweet;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane3;

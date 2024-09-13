@@ -16,6 +16,8 @@ public class CrearCuenta extends javax.swing.JFrame {
         log=new Login();
         
     }
+    
+    
     /*
     public void Perfil(){
         Nombre=new DefaultListModel();
@@ -72,6 +74,11 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel5.setText("Edad:");
 
         Genero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Femenino", "Masculino" }));
+        Genero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GeneroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout CrearCuentaLayout = new javax.swing.GroupLayout(CrearCuenta);
         CrearCuenta.setLayout(CrearCuentaLayout);
@@ -132,7 +139,7 @@ public class CrearCuenta extends javax.swing.JFrame {
                 .addGroup(CrearCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(Edad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
                 .addGroup(CrearCuentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,10 +154,10 @@ public class CrearCuenta extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CrearCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(CrearCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,13 +166,14 @@ public class CrearCuenta extends javax.swing.JFrame {
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
     String usuarios=Usuario.getText();
     String contraseñas=Contra.getText();
-    
+    String genero=(String)Genero.getSelectedItem();
             
+    
     if (usuarios.isEmpty() || contraseñas.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos");
         return;
     } 
-    boolean userCreated = log.CrearUsuario(usuarios, contraseñas);
+    boolean userCreated = log.CrearUsuario(usuarios, contraseñas, genero);
     if (userCreated) {
         MenuPrincipal menuprincipal = new MenuPrincipal();
         menuprincipal.setVisible(true);
@@ -173,6 +181,8 @@ public class CrearCuenta extends javax.swing.JFrame {
     } else {
         System.out.println("favor ingrese una contraseña valido");
     }   
+    
+    
     
     String[]Datos=new String[5];
     Datos[0]=Nombre.getText();Nombre.setText("");
@@ -197,6 +207,13 @@ public class CrearCuenta extends javax.swing.JFrame {
         inicial.setVisible(true);
         this.dispose();  
     }//GEN-LAST:event_RegresarActionPerformed
+
+    private void GeneroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneroActionPerformed
+         String mensaje="El genero elegio es";
+         mensaje=mensaje+Genero.getSelectedItem().toString();
+         
+        
+    }//GEN-LAST:event_GeneroActionPerformed
 
     
     public static void main(String args[]) {

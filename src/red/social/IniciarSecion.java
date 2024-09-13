@@ -1,6 +1,7 @@
 package red.social;
 
 public class IniciarSecion extends javax.swing.JFrame {
+   
 
     private Login log;
     public IniciarSecion() {
