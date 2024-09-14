@@ -305,4 +305,8 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JLabel lblNombres;
     private javax.swing.JLabel lblUsuario;
     // End of variables declaration//GEN-END:variables
+
+    void mostrarPerfil(String usuario) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

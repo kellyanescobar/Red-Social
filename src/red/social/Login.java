@@ -20,6 +20,7 @@ public class Login{
     private String[] Generos=new String[100];
     static int Contar = 0;
     
+    private static String[][] seguidores=new String [100][100];
     private String Hasthtag;
     private String[] CrearHasthtags=new String[100];
     private String[] Hasthtags=new String[100];
@@ -182,6 +183,48 @@ public class Login{
         }
         return null;
     }
+    public boolean esSeguido(String usuarioSeguido, String usuarioActual){
+        for(int i=0;i<Contar;i++){
+            if(Usuarios[i].equals(usuarioActual)){
+                for(int j=0; j<100;j++){
+                    if(seguidores[i][j] !=null && seguidores[i][j].equals(usuarioSeguido)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean seguirUsuario(String usuarioSeguido) {
+    for (int i = 0; i < Contar; i++) {
+        if (Usuarios[i].equals(Usuario)) {
+            for (int j = 0; j < 100; j++) {
+                if (seguidores[i][j] == null) {
+                    seguidores[i][j] = usuarioSeguido;
+                    JOptionPane.showMessageDialog(null, "Ahora sigues a " + usuarioSeguido);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+public boolean dejarDeSeguirUsuario(String usuarioSeguido) {
+    for (int i = 0; i < Contar; i++) {
+        if (Usuarios[i].equals(Usuario)) {
+            for (int j = 0; j < 100; j++) {
+                if (seguidores[i][j] != null && seguidores[i][j].equals(usuarioSeguido)) {
+                    seguidores[i][j] = null;
+                    JOptionPane.showMessageDialog(null, "Has dejado de seguir a " + usuarioSeguido);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
     
     
     
