@@ -32,7 +32,7 @@ public class BuscarPersonas extends javax.swing.JFrame {
         add(btnBuscar);
 
         lblResultado = new JLabel();
-        lblResultado.setPreferredSize(new Dimension(300, 400)); // Tamaño para mostrar los resultados
+        lblResultado.setPreferredSize(new Dimension(300, 350)); // Tamaño para mostrar los resultados
         lblResultado.setVerticalAlignment(JLabel.TOP);
         lblResultado.setHorizontalAlignment(JLabel.LEFT);
         lblResultado.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Borde para mejor visibilidad
@@ -40,6 +40,24 @@ public class BuscarPersonas extends javax.swing.JFrame {
 
         btnBuscar.addActionListener(e -> buscarUsuario());
 
+        
+        btnRegresar = new JButton(new ImageIcon(getClass().getResource("/Imagenes/RegresarSmall.png")));
+        btnRegresar.setBounds(220, 400, 40, 40);
+        add(btnRegresar);
+
+        // Acción del botón Regresar
+        btnRegresar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                regresarAMenuPrincipal();
+            }
+        });
+
+        // Ajuste de tamaño y visibilidad
+        setVisible(true);
+    
+
+        
         // Agregar evento de clic al JLabel para acceder al perfil
         lblResultado.addMouseListener(new MouseAdapter() {
             @Override
@@ -53,7 +71,17 @@ public class BuscarPersonas extends javax.swing.JFrame {
                 }
             }
         });
+        
+    
     }
+     
+    private void regresarAMenuPrincipal() {
+        MenuPrincipal menu = new MenuPrincipal();
+        menu.setVisible(true);
+        this.dispose(); // Cierra la ventana actual
+    } 
+     
+     
 
     // Método para buscar usuario sin necesidad de @ y mostrar usuarios coincidentes
     private void buscarUsuario() {
