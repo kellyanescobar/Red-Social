@@ -91,7 +91,7 @@ public class Perfil extends javax.swing.JFrame {
     statsPanel.add(lblSeguidosCount);
 
     // Configurar tamaño preferido para el statsPanel
-    statsPanel.setPreferredSize(new Dimension(300, 50));
+    statsPanel.setPreferredSize(new Dimension(300, 500));
 
     // Crear un JPanel para el botón Buscar
     JPanel buscarPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -113,7 +113,7 @@ public class Perfil extends javax.swing.JFrame {
     regresarPanel.add(btnRegresar);
 
     // Configurar tamaño preferido para el regresarPanel
-    regresarPanel.setPreferredSize(new Dimension(300, 50));
+    regresarPanel.setPreferredSize(new Dimension(300, 100));
 
     // Crear un JPanel principal usando BoxLayout para vertical alignment
     JPanel mainPanel = new JPanel();
@@ -125,7 +125,7 @@ public class Perfil extends javax.swing.JFrame {
 
     // Configurar el JFrame
     this.setContentPane(mainPanel);
-    this.setSize(352, 494);
+    this.setSize(352, 500);
     this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     setVisible(true);
 }

@@ -4,125 +4,195 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
  public class MenuPrincipal extends javax.swing.JFrame {
-    DefaultListModel texto=new DefaultListModel();
     private JTextArea postTextArea;
     private JTextArea displayTextArea;
-    private JScrollPane displayScrollPane;
-    private JPanel jPanell;
-    private JTextArea tweetTexArea;
-    private JLabel displayLabel;
-    private JButton senButton, cancelButton;
-    private String usuarioActual;
-    Login log;
-    
-    
-   public MenuPrincipal() {
-        initComponents();
-        initCustomComponents();
-         texto=new DefaultListModel();
-         twet.setModel(texto);
-         log=new Login();
+    private JButton postButton;
+    private JButton perfilButton;
+    private JButton interaccionesButton;
+    private JButton hashtagsButton;
+    private JButton cerrarSesionButton;
+    private String usuarioActual; // Nombre del usuario actual
 
-    } 
-    private void creartweet(String username) {
-    // Configuración de la ventana
-    JFrame tweetFrame = new JFrame("Enviar Tweet");
-    tweetFrame.setSize(400, 300);
-    tweetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    tweetFrame.setLayout(new BorderLayout());
+    public MenuPrincipal() {
+        setTitle("Menu Principal");
+        setSize(350, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-    // Crear componentes
-    JTextArea tweetTextArea = new JTextArea(5, 30);
-    JLabel displayLabel = new JLabel("Escribe tu tweet:");
-    JButton sendButton = new JButton("Enviar");
-    JButton cancelButton = new JButton("Cancelar");
+        // Crear un JPanel para contener el logo y el texto "Duckling"
+        JPanel logoPanel = new JPanel();
+        logoPanel.setLayout(new BoxLayout(logoPanel, BoxLayout.X_AXIS)); // Layout horizontal para icono + texto
 
-    // Panel para los botones
-    JPanel buttonPanel = new JPanel();
-    buttonPanel.add(sendButton);
-    buttonPanel.add(cancelButton);
+        // Crear y agregar el logo (imagen)
+        JLabel logoLabel = new JLabel(new ImageIcon(getClass().getResource("/Imagenes/patito.png")));
 
-    // Agregar componentes a la ventana
-    tweetFrame.add(displayLabel, BorderLayout.NORTH);
-    tweetFrame.add(new JScrollPane(tweetTextArea), BorderLayout.CENTER);
-    tweetFrame.add(buttonPanel, BorderLayout.SOUTH);
+        // Crear y agregar el texto "Duckling"
+        JLabel textLabel = new JLabel("Duckling");
+        textLabel.setFont(new java.awt.Font("Bold", java.awt.Font.BOLD, 15)); // Ajustar fuente y tamaño de letra
+        textLabel.setForeground(new java.awt.Color(204, 204, 0));
 
+        // Centrar ambos elementos dentro del logoPanel
+        logoPanel.add(logoLabel);
+        logoPanel.add(Box.createRigidArea(new Dimension(10, 0))); // Espaciado entre el logo y el texto
+        logoPanel.add(textLabel);
 
-    sendButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String tweet = tweetTextArea.getText();
-            if (!tweet.isEmpty()) {
-                String tweetMessage = username + ": " + tweet;
-                JOptionPane.showMessageDialog(tweetFrame, "Tweet enviado: " + tweetMessage);
-                tweetTextArea.setText(""); 
-            } else {
-                JOptionPane.showMessageDialog(tweetFrame, "El tweet está vacío.");
-            }
-        }
-    });
+        // Centrar el panel completo en la parte superior
+        logoPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+        add(logoPanel, BorderLayout.NORTH);
 
-    // Acción del botón "Cancelar"
-    cancelButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            tweetTextArea.setText(""); // Limpiar el área de texto
-            tweetFrame.dispose();
-        }
-    });
+        Login loginInstance = new Login();
+        this.usuarioActual = loginInstance.getUsuario(); // Método no estático
 
-    // Mostrar la ventana
-    tweetFrame.setVisible(true);
-}
-
-    
-    private void initCustomComponents() {
-        postTextArea = new JTextArea();
-        postTextArea.setRows(5);
-        postTextArea.setColumns(20);
+        // Crear área de texto para ingresar publicaciones
+        postTextArea = new JTextArea(5, 20);
         JScrollPane postScrollPane = new JScrollPane(postTextArea);
+        postScrollPane.setBorder(BorderFactory.createTitledBorder("Escribe tu publicación"));
 
         // Crear botón para publicar
-        JButton BotonPublicar = new JButton("Publicar");
-        BotonPublicar.addActionListener(new ActionListener() {
+        postButton = new JButton("Publicar");
+        postButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent evt) {
-                postButtonActionPerformed(evt);
+            public void actionPerformed(ActionEvent e) {
+                postButtonActionPerformed();
             }
         });
 
-        displayTextArea = new JTextArea();
-        displayTextArea.setEditable(false); // No permitir edición del texto publicado
-        displayTextArea.setRows(10);
-        displayTextArea.setColumns(20);
+        // Crear área de texto para mostrar publicaciones
+        displayTextArea = new JTextArea(10, 40);
+        displayTextArea.setEditable(false);
+        JScrollPane displayScrollPane = new JScrollPane(displayTextArea);
+        displayScrollPane.setBorder(BorderFactory.createTitledBorder("Publicaciones"));
 
-        displayScrollPane = new JScrollPane(displayTextArea);
+        // Crear botones para navegación
+        perfilButton = new JButton("Perfil");
+        perfilButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openPerfil();
+            }
+        });
 
-        // Agregar componentes al panel
-        jPanel1.add(postScrollPane);
-        jPanel1.add(BotonPublicar);
-        jPanel1.add(displayScrollPane);
+        interaccionesButton = new JButton("Interacciones");
+        interaccionesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openInteracciones();
+            }
+        });
+
+        hashtagsButton = new JButton("Hashtags");
+        hashtagsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openHashtags();
+            }
+        });
+
+        cerrarSesionButton = new JButton("Cerrar Sesión");
+        cerrarSesionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openPantallaInicial();
+            }
+        });
+
+        // Crear panel para los botones de navegación
+        JPanel navigationPanel = new JPanel();
+        navigationPanel.setLayout(new BoxLayout(navigationPanel, BoxLayout.Y_AXIS)); // Botones en layout vertical
+        navigationPanel.add(perfilButton);
+        navigationPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Espaciado entre botones
+        navigationPanel.add(interaccionesButton);
+        navigationPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Más espaciado
+        navigationPanel.add(hashtagsButton);
+
+        // Crear panel para los componentes de publicación
+        JPanel postPanel = new JPanel();
+        postPanel.setLayout(new BorderLayout());
+        postPanel.add(postScrollPane, BorderLayout.CENTER);
+        postPanel.add(postButton, BorderLayout.SOUTH);
+
+        // Panel principal que contiene el panel de navegación y el área de publicaciones
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(navigationPanel, BorderLayout.WEST); // Navegación a la izquierda
+        mainPanel.add(postPanel, BorderLayout.CENTER); // Publicación en el centro
+        mainPanel.add(displayScrollPane, BorderLayout.SOUTH); // Publicaciones abajo
+
+        // Añadir el botón de cerrar sesión al final de la ventana
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(cerrarSesionButton, BorderLayout.EAST);
+
+        // Añadir componentes al JFrame
+        add(mainPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // Restringir el número de caracteres en el área de texto
+        postTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                if (postTextArea.getText().length() >= 140) {
+                    evt.consume(); // Ignorar el evento de tecla
+                    Toolkit.getDefaultToolkit().beep(); // Sonido de advertencia
+                }
+            }
+        });
     }
 
-    private void postButtonActionPerformed(ActionEvent evt) {
-        // Obtener el texto de la publicación
+    private void postButtonActionPerformed() {
         String postText = postTextArea.getText();
 
-        // Verificar que el texto no esté vacío
-        if (!postText.isEmpty()) {
-            // Añadir el texto publicado al JTextArea
-            displayTextArea.append(postText + "\n\n");
-            postTextArea.setText(""); // Limpiar el área de texto después de la publicación
+        // Si el texto del post no está vacío
+        if (!postText.trim().isEmpty()) {
+            // Obtener la fecha actual en el formato [dd/MM/yyyy]
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDate = dateFormat.format(new Date());
+
+            // Formato del mensaje del tweet
+            String tweetMessage = usuarioActual + " escribió:\n“" + postText + "” el [" + currentDate + "]\n\n";
+
+            // Mostrar el mensaje en el área de texto de publicaciones
+            displayTextArea.append(tweetMessage);
+
+            // Limpiar el área de texto de publicación
+            postTextArea.setText("");
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.");
+            JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-          
-    
+
+    private void openPerfil() {
+        Perfil perfil = new Perfil();
+        perfil.setVisible(true);
+        this.dispose();
+    }
+
+    private void openInteracciones() {
+        Interacciones interacciones = new Interacciones();
+        interacciones.setVisible(true);
+        this.dispose();
+    }
+
+    private void openHashtags() {
+        Hashtags hashtags = new Hashtags();
+        hashtags.setVisible(true);
+        this.dispose();
+    }
+
+    private void openPantallaInicial() {
+        PantallaInicial pantallaInicial = new PantallaInicial();
+        pantallaInicial.setVisible(true);
+        this.dispose();
+    }
+
+
 
     
     @SuppressWarnings("unchecked")
@@ -132,7 +202,6 @@ import java.awt.Toolkit;
         menutransparente = new javax.swing.JPopupMenu();
         jPanel1 = new javax.swing.JPanel();
         Perfil = new javax.swing.JButton();
-        Tweet = new javax.swing.JButton();
         Interacciones = new javax.swing.JButton();
         Hashtags = new javax.swing.JButton();
         logo = new javax.swing.JLabel();
@@ -149,14 +218,6 @@ import java.awt.Toolkit;
         Perfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PerfilActionPerformed(evt);
-            }
-        });
-
-        Tweet.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        Tweet.setText("Tweet");
-        Tweet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TweetActionPerformed(evt);
             }
         });
 
@@ -220,51 +281,49 @@ import java.awt.Toolkit;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(logo)
-                                .addComponent(Tweet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(4, 4, 4)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Interacciones)
-                                    .addComponent(CerrarSesion)
-                                    .addComponent(Hashtags, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Publicar))))
-                    .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(logo)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addComponent(CerrarSesion)))
+                                .addGap(18, 18, 18))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(Hashtags, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Interacciones, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Perfil, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Publicar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Publicar))
-                .addGap(13, 13, 13)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(Tweet)
+                        .addGap(13, 13, 13)
+                        .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Publicar)
+                        .addGap(49, 49, 49)
+                        .addComponent(Perfil)
                         .addGap(18, 18, 18)
                         .addComponent(Interacciones)
                         .addGap(18, 18, 18)
-                        .addComponent(Perfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(Hashtags))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Texto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Hashtags)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addComponent(CerrarSesion)
                 .addContainerGap())
@@ -315,29 +374,15 @@ import java.awt.Toolkit;
     }//GEN-LAST:event_InteraccionesActionPerformed
 
     private void PublicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublicarActionPerformed
-    String username = log.ObtenerNombreUsuarioRegistrado(); 
-    String tweetText = Texto.getText();
-
-    if (!tweetText.isEmpty()) {
-        String tweetMessage = username + ": " + tweetText;
-
-        texto.addElement(tweetMessage);
-
-        Texto.setText("");
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.");
-    }        
+   
+          
     }//GEN-LAST:event_PublicarActionPerformed
 
     private void TextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextoActionPerformed
-          
+     
         
+     //TxT para escribir el tweet
     }//GEN-LAST:event_TextoActionPerformed
-
-    private void TweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TweetActionPerformed
-       String username = log.ObtenerNombreUsuarioRegistrado(); 
-       creartweet(username); 
-    }//GEN-LAST:event_TweetActionPerformed
 
     private void TextoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextoKeyTyped
         if(Texto.getText().length()>=140){
@@ -365,7 +410,6 @@ import java.awt.Toolkit;
     private javax.swing.JButton Perfil;
     private javax.swing.JButton Publicar;
     private javax.swing.JTextField Texto;
-    private javax.swing.JButton Tweet;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel logo;
@@ -373,6 +417,7 @@ import java.awt.Toolkit;
     private javax.swing.JList<String> twet;
     // End of variables declaration//GEN-END:variables
 
+    
  
 
    

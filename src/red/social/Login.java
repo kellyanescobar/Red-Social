@@ -7,6 +7,8 @@ import java.util.Date;
 public class Login{
      private static final int MAX_USUARIOS = 100;
     private static int numUsuarios = 0;
+
+    
     
     private String Nombre;
     private String Genero;
@@ -17,10 +19,10 @@ public class Login{
     private String FechaIngreso;
     private boolean Activo;
     static String[] Usuarios = new String[MAX_USUARIOS];
-    private static String[] Contraseñas = new String[100];
-    private static String[] FechasIngresos = new String[100];
-    private static boolean[] Activos = new boolean[100];
-    private String[] Generos=new String[100];
+    private static String[] Contraseñas = new String[MAX_USUARIOS];
+    private static String[] FechasIngresos = new String[MAX_USUARIOS];
+    private static boolean[] Activos = new boolean[MAX_USUARIOS];
+    private String[] Generos=new String[MAX_USUARIOS];
     static int Contar = 0;
     
     private static String[][] seguidores=new String[MAX_USUARIOS][MAX_USUARIOS];
@@ -348,6 +350,30 @@ public String getFechaIngreso(String usuario) {
             return Generos[index];
         }
         return "Género no disponible.";
+    }
+
+    
+    public boolean mencionarUsuario(String mensaje) {
+        String[] partes = mensaje.split(" ");
+        for (String parte : partes) {
+            if (parte.startsWith("@")) {
+                String usuarioMencionado = parte.substring(1);
+                if (!existeUsuario(usuarioMencionado)) {
+                    JOptionPane.showMessageDialog(null, "El usuario @" + usuarioMencionado + " no existe.");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean existeUsuario(String nombreUsuario) {
+        for (int i = 0; i < Contar; i++) {
+            if (Usuarios[i].equalsIgnoreCase(nombreUsuario)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
