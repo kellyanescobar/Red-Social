@@ -167,13 +167,22 @@ public class CrearCuenta extends javax.swing.JFrame {
     String usuarios=Usuario.getText();
     String contraseñas=Contra.getText();
     String genero=(String)Genero.getSelectedItem();
+    String nombre=Nombre.getText();
+    String edad=Edad.getText();
             
     
-    if (usuarios.isEmpty() || contraseñas.isEmpty()) {
+    if (usuarios.isEmpty() || contraseñas.isEmpty()||nombre.isEmpty()|| edad.isEmpty()||genero.equals("-")) {
         JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos");
         return;
     } 
+    
     boolean userCreated = log.CrearUsuario(usuarios, contraseñas, genero);
+    System.out.println("Nombre:"+nombre);
+    System.out.println("edad:"+edad);
+    System.out.println("Gnero:"+genero);
+    JOptionPane.showMessageDialog(this,"Datos guardados:\nNombre:"+nombre+"\nEdad:"+edad+"\nGenero:"+genero);
+    
+    
     if (userCreated) {
         MenuPrincipal menuprincipal = new MenuPrincipal();
         menuprincipal.setVisible(true);
@@ -182,18 +191,21 @@ public class CrearCuenta extends javax.swing.JFrame {
         System.out.println("favor ingrese una contraseña valido");
     }   
     
-    
-    
     String[]Datos=new String[5];
-    Datos[0]=Nombre.getText();Nombre.setText("");
-    Datos[1]=Edad.getText();Edad.setText("");
-    Datos[2]=Usuario.getText();Usuario.setText("");
-    Datos[3]=Contra.getText();Contra.setText("");
-    Datos[4]=Genero.getSelectedItem().toString();
+    Datos[0]=nombre;
+    Datos[1]=edad;
+    Datos[2]=usuarios;
+    Datos[3]=contraseñas;
+    Datos[4]=genero;
     
     modelo.addRow(Datos);
     
+    Nombre.setText("");
+    Edad.setText("");
+    Usuario.setText("");
+    Contra.setText("");
     Genero.setSelectedIndex(0);
+    
     /*
     String tex=Nombre.getText();
     Nombre.addElement(tex);

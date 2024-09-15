@@ -5,28 +5,47 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Login{
+     private static final int MAX_USUARIOS = 100;
+    private static int numUsuarios = 0;
+    
     private String Nombre;
     private String Genero;
     private String Edad;
     private String Usuario;
     private String Contra;
-    private static Login UsuarioRegistrado;
+    static Login UsuarioRegistrado;
     private String FechaIngreso;
     private boolean Activo;
-    static String[] Usuarios = new String[100];
+    static String[] Usuarios = new String[MAX_USUARIOS];
     private static String[] Contraseñas = new String[100];
     private static String[] FechasIngresos = new String[100];
     private static boolean[] Activos = new boolean[100];
     private String[] Generos=new String[100];
     static int Contar = 0;
     
-    private static String[][] seguidores=new String [100][100];
+    private static String[][] seguidores=new String[MAX_USUARIOS][MAX_USUARIOS];
+    
+    //se agrego esto
+    private String[] usuarios={};
+    private String[] contraseñas;
+    private String[] generos={};
+    private String[] fechasIngreso;
+    private int contadorUsuarios;
+    private String[] edades;
+    //hasta aqui se agrego
+    
     private String Hasthtag;
     private String[] CrearHasthtags=new String[100];
     private String[] Hasthtags=new String[100];
     private String[] BuscarUsuarios=new String [100];
     String getNombre;
+    
     public Login() {
+        usuarios = new String[100];        // Suponiendo un máximo de 100 usuarios
+        contraseñas = new String[100];
+        generos = new String[100];
+        fechasIngreso = new String[100];
+        contadorUsuarios = 0;
     }
 
     public Login(String user, String password, String genero) {
@@ -36,6 +55,8 @@ public class Login{
         this.Genero=genero;
         this.Activo = true;
     }
+
+   
 
     public String getUsuario() {
         return Usuario;
@@ -62,6 +83,28 @@ public class Login{
             return "Ningun usuario registrado.";
         }
     }
+    
+    //aqui
+    public String obtenerNombre(String usuario) {
+        // Implementa el código para obtener el nombre del usuario
+        return "";
+    }
+
+    public String obtenerFechaRegistrado(String usuario) {
+        // Implementa el código para obtener la fecha de registro del usuario
+        return "";
+    }
+
+    public String obtenerEdad(String usuario) {
+        // Implementa el código para obtener la edad del usuario
+        return "";
+    }
+
+    public String obtenerGenero(String usuario) {
+        // Implementa el código para obtener el género del usuario
+        return "";
+    }
+    //aqui
 
     
     // Método para cambiar la contraseña
@@ -138,6 +181,53 @@ public class Login{
         return false;
     }
     
+    /**
+     *
+     * @param usuario
+     * @param password
+     * @param genero
+     * @return
+     */
+    
+    public boolean CreaUsuario(String usuario, String contraseña, String genero) {
+        // Verificar si el usuario ya existe
+        if (buscarUsuario(usuario) != -1) {
+            return false; // El usuario ya existe
+        }
+        
+        if (contadorUsuarios < usuarios.length) {
+            usuarios[contadorUsuarios] = usuario;
+            contraseñas[contadorUsuarios] = contraseña;
+            generos[contadorUsuarios] = genero;
+            fechasIngreso[contadorUsuarios] = "01/09/2024";  // Simulando fecha de creación
+            contadorUsuarios++;
+            return true;
+        } else {
+            System.out.println("No hay más espacio para usuarios.");
+            return false;
+        }
+    }
+
+    // Buscar el índice de un usuario
+    private int buscarUsuario(String usuario) {
+        for (int i = 0; i < contadorUsuarios; i++) {
+            if (usuarios[i].equals(usuario)) {
+                return i;
+            }
+        }
+        return -1; // Usuario no encontrado
+    }
+
+    public String[] obtenerDatosUsuario(String usuario) {
+        int index = buscarUsuario(usuario);
+        if (index != -1) {
+            return new String[]{usuarios[index], generos[index], fechasIngreso[index]};
+        } else {
+            return null;  // Usuario no encontrado
+        }
+    }
+
+    
     public boolean CrearUsuario(String usuario, String password, String genero) {
         if (usuario.length() == 0 ) {
             JOptionPane.showMessageDialog(null, "Nombre de usuario no validos.");
@@ -164,16 +254,9 @@ public class Login{
             JOptionPane.showMessageDialog(null, "No se pueden registrar más usuarios.");
             return false;
         }
-    }
+    } 
     
-    public String ObtenerGenero(String usuario){
-      for(int i=0;i<Contar;i++){
-          if(Usuarios[i].equals(usuario)){
-              return Generos[i];
-          }
-      }  
-      return null;
-    }
+    
     
     public String ObtenerHasthtags(String hasthtags){
         for (int i=0;i<Contar;i++){
@@ -225,12 +308,49 @@ public boolean dejarDeSeguirUsuario(String usuarioSeguido) {
     }
     return false;
 }
-    
-    
-    
-    
-    //Mostrar foto perfil
-    
+
+public String getFechaIngreso(String usuario) {
+    for (int i = 0; i < Contar; i++) {
+        if (Usuarios[i].equals(usuario)) {
+            return FechasIngresos[i];
+        }
+    }
+    return "Fecha no disponible";
+}
+
+ public String ObtenerNombre(String usuario) {
+        int index = buscarUsuario(usuario);
+        if (index != -1) {
+            return Usuarios[index];
+        }
+        return "Usuario no encontrado.";
+    }
+
+    public String ObtenerFechaRegistrada(String usuario) {
+        int index = buscarUsuario(usuario);
+        if (index != -1) {
+            return FechasIngresos[index];
+        }
+        return "Fecha no disponible.";
+    }
+
+   public String ObtenerEdad(String usuario) {
+        int index = buscarUsuario(usuario);
+        if (index != -1) {
+            return edades[index];  // Suponiendo que `edades` es un array correctamente inicializado
+        }
+        return "Edad no disponible.";
+    }
+
+    public String ObtenerGenero(String usuario) {
+        int index = buscarUsuario(usuario);
+        if (index != -1) {
+            return Generos[index];
+        }
+        return "Género no disponible.";
+    }
+
+
     
 
     boolean cambiarNombreUsuario(String nuevoUsuario) {
@@ -252,5 +372,14 @@ public boolean dejarDeSeguirUsuario(String usuarioSeguido) {
     String getNombre() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    String obtenerGeneros() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    String obtenerEdadades() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
+
+  

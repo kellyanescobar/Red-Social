@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 
+
  public class MenuPrincipal extends javax.swing.JFrame {
     DefaultListModel texto=new DefaultListModel();
     private JTextArea postTextArea;
@@ -15,12 +16,11 @@ import java.awt.Toolkit;
     private JTextArea tweetTexArea;
     private JLabel displayLabel;
     private JButton senButton, cancelButton;
+    private String usuarioActual;
     Login log;
     
-    //Dia y mes para el tweet
-  
     
-    public MenuPrincipal() {
+   public MenuPrincipal() {
         initComponents();
         initCustomComponents();
          texto=new DefaultListModel();
@@ -121,7 +121,7 @@ import java.awt.Toolkit;
             JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.");
         }
     }
-        
+          
     
 
     

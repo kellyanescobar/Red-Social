@@ -12,12 +12,7 @@ private String HasthtagActual;
         log=new Login();
     }
     
-    private void CargarHasthtags(){
-    String genero=log.ObtenerGenero(HasthtagActual);
-     if(genero!=null){
-         
-     }
-}
+
     
     
 
