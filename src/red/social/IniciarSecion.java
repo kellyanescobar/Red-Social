@@ -21,7 +21,6 @@ public class IniciarSecion extends javax.swing.JFrame {
         Ingresar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nuevacontra = new javax.swing.JToggleButton();
         icono = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -42,13 +41,6 @@ public class IniciarSecion extends javax.swing.JFrame {
         jLabel1.setText("Introduce tu usuario:");
 
         jLabel2.setText("Introduce tu contraseña:");
-
-        nuevacontra.setText("Olvidaste tu contraseña?");
-        nuevacontra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nuevacontraActionPerformed(evt);
-            }
-        });
 
         icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/patito.png"))); // NOI18N
 
@@ -71,12 +63,9 @@ public class IniciarSecion extends javax.swing.JFrame {
                         .addGap(107, 107, 107)
                         .addComponent(Ingresar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(nuevacontra, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(138, 138, 138)
                         .addComponent(icono)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,9 +82,7 @@ public class IniciarSecion extends javax.swing.JFrame {
                 .addComponent(contra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(Ingresar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                .addComponent(nuevacontra)
-                .addGap(20, 20, 20))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,11 +124,6 @@ public class IniciarSecion extends javax.swing.JFrame {
         
     }//GEN-LAST:event_usuarioActionPerformed
 
-    private void nuevacontraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevacontraActionPerformed
-      
-        
-    }//GEN-LAST:event_nuevacontraActionPerformed
-
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -182,7 +164,6 @@ public class IniciarSecion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JToggleButton nuevacontra;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
 

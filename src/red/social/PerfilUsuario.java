@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 
 public class PerfilUsuario extends javax.swing.JFrame {
       private String usuario;
-      private Login log;
+    private Login log;
+    private boolean Siguiendo;
 
-    public PerfilUsuario(String usuario) { 
+    public PerfilUsuario(String usuario) {
         this.usuario = usuario;
         this.log = new Login();  // Usamos la misma instancia de Login
+        this.Siguiendo = log.seguirUsuario(usuario);  // Check if the user is already followed
 
         setTitle("Perfil de " + usuario);
         setSize(352, 494);
@@ -23,6 +25,9 @@ public class PerfilUsuario extends javax.swing.JFrame {
         JLabel lblGenero = new JLabel();
         JLabel lblFechaIngreso = new JLabel();
         JLabel lblFotoPerfil = new JLabel();
+
+        JButton btnSeguir = new JButton(Siguiendo ? "Dejar de seguir" : "Seguir");
+        JButton btnRegresar = new JButton("Regresar");
 
         // Obtener datos del usuario desde la clase Login
         String[] userData = log.obtenerDatosUsuario(usuario);
@@ -46,6 +51,33 @@ public class PerfilUsuario extends javax.swing.JFrame {
         add(lblNombre);
         add(lblGenero);
         add(lblFechaIngreso);
+        add(btnSeguir);
+        add(btnRegresar);
+
+        // Acción del botón Seguir/Dejar de seguir
+        btnSeguir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Siguiendo) {
+                    log.dejarDeSeguirUsuario(usuario);
+                    btnSeguir.setText("Seguir");
+                    Siguiendo = false;
+                } else {
+                    log.seguirUsuario(usuario);
+                    btnSeguir.setText("Dejar de seguir");
+                    Siguiendo = true;
+                }
+            }
+        });
+
+        // Acción del botón Regresar
+        btnRegresar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Perfil().setVisible(true);
+                dispose();  // Cierra el perfil actual
+            }
+        });
     }
 
 

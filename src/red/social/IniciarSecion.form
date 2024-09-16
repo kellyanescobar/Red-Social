@@ -61,15 +61,11 @@
                           <Component id="Ingresar" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                          <Component id="nuevacontra" min="-2" pref="227" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="138" max="-2" attributes="0"/>
                           <Component id="icono" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="58" max="32767" attributes="0"/>
+                  <EmptySpace pref="110" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -88,9 +84,7 @@
                   <Component id="contra" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="Ingresar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="164" max="32767" attributes="0"/>
-                  <Component id="nuevacontra" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace pref="207" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -120,14 +114,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Introduce tu contrase&#xf1;a:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JToggleButton" name="nuevacontra">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Olvidaste tu contrase&#xf1;a?"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nuevacontraActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="icono">
           <Properties>

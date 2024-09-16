@@ -9,7 +9,6 @@ public class Login{
     private static int numUsuarios = 0;
 
     
-    
     private String Nombre;
     private String Genero;
     private String Edad;
@@ -25,6 +24,9 @@ public class Login{
     private String[] Generos=new String[MAX_USUARIOS];
     static int Contar = 0;
     
+    private static final int MAX_TWEETS = 100;  // Máximo número de twee
+    private String[][] tweets = new String[MAX_USUARIOS][MAX_TWEETS];
+    
     private static String[][] seguidores=new String[MAX_USUARIOS][MAX_USUARIOS];
     
     //se agrego esto
@@ -34,6 +36,7 @@ public class Login{
     private String[] fechasIngreso;
     private int contadorUsuarios;
     private String[] edades;
+    private int numUsuareios;
     //hasta aqui se agrego
     
     private String Hasthtag;
@@ -375,8 +378,91 @@ public String getFechaIngreso(String usuario) {
         }
         return false;
     }
+    
+    public String ObtenerInformacionUsuarioRegistrado(){
+        if (UsuarioRegistrado !=null){
+            return "Nombre:"+UsuarioRegistrado.getUsuario()+"\n"+
+                    "Fecha de Ingreso:"+UsuarioRegistrado.getFechaIngreso(UsuarioRegistrado.getUsuario())+"\n"+
+                    "Edad"+UsuarioRegistrado.ObtenerEdad(UsuarioRegistrado.getUsuario())+"\n"+
+                    "Genero:"+UsuarioRegistrado.ObtenerGenero(UsuarioRegistrado.getUsuario());
+        }else{
+            return "Nungun usuario registrado";
+        }
+    }
+     
+    public String[] verMisSeguidores() {
+    // Verifica si hay un usuario registrado
+    if (UsuarioRegistrado != null) {
+        // Obtiene el nombre del usuario registrado
+        String usuarioActual = UsuarioRegistrado.getUsuario();
+        
+        // Llama al método para obtener los seguidores del usuario actual
+        return obtenerSeguidores(usuarioActual);
+    } else {
+        return new String[]{"No hay ningún usuario registrado."};
+    }
+}
+    
+    public String[] verMisSeguidos() {
+    // Verifica si hay un usuario registrado
+    if (UsuarioRegistrado != null) {
+        // Obtiene el nombre del usuario registrado
+        String usuarioActual = UsuarioRegistrado.getUsuario();
+        
+        // Llama al método para obtener la lista de usuarios que el usuario actual sigue
+        return obtenerSeguidos(usuarioActual);
+    } else {
+        return new String[]{"No hay ningún usuario registrado."};
+    }
+}
+ 
+    //Para menciones
+    public String[] obtenerTweetsDeUsuario(String usuario) {
+    int index = buscarUsuario(usuario);
+    if (index == -1) {
+        return new String[]{"Usuario no encontrado."};
+    }
 
+    // Contar cuántos tweets tiene el usuario
+    int tweetCount = 0;
+    for (int i = 0; i < MAX_TWEETS; i++) {
+        if (tweets[index][i] != null) {
+            tweetCount++;
+        }
+    }
 
+    // Crear un array para devolver los tweets
+    String[] tweetsDeUsuario = new String[tweetCount];
+    int j = 0;
+    for (int i = 0; i < MAX_TWEETS; i++) {
+        if (tweets[index][i] != null) {
+            tweetsDeUsuario[j++] = tweets[index][i];
+        }
+    }
+
+    return tweetsDeUsuario;
+}
+    
+    public String[] verTweetsConMenciones(String usuarioMencionado) {
+    String[] tweetsConMenciones = new String[MAX_USUARIOS * MAX_TWEETS];
+    int count = 0;
+
+    for (int i = 0; i < MAX_USUARIOS; i++) {
+        for (int j = 0; j < MAX_TWEETS; j++) {
+            if (tweets[i][j] != null && tweets[i][j].contains("@" + usuarioMencionado)) {
+                tweetsConMenciones[count++] = tweets[i][j];
+            }
+        }
+    }
+
+    // Redimensionar el array a la cantidad de tweets encontrados
+    String[] resultado = new String[count];
+    System.arraycopy(tweetsConMenciones, 0, resultado, 0, count);
+
+    return resultado;
+}
+    
+     
     
 
     boolean cambiarNombreUsuario(String nuevoUsuario) {
@@ -406,6 +492,22 @@ public String getFechaIngreso(String usuario) {
     String obtenerEdadades() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    private String[] obtenerSeguidores(String usuarioActual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    String[] verMisSeguidores(String usuario) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private String[] obtenerSeguidos(String usuarioActual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+
+
 }
 
   

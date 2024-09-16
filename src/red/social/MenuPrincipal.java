@@ -18,7 +18,7 @@ import java.util.Date;
     private JButton interaccionesButton;
     private JButton hashtagsButton;
     private JButton cerrarSesionButton;
-    private String usuarioActual; // Nombre del usuario actual
+    private String usuarios; // Nombre del usuario actual
 
     public MenuPrincipal() {
         setTitle("Menu Principal");
@@ -48,8 +48,9 @@ import java.util.Date;
         logoPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         add(logoPanel, BorderLayout.NORTH);
 
+        // Asignar el usuario actual
         Login loginInstance = new Login();
-        this.usuarioActual = loginInstance.getUsuario(); // Método no estático
+        this.usuarios = loginInstance.getUsuario(); // Método no estático
 
         // Crear área de texto para ingresar publicaciones
         postTextArea = new JTextArea(5, 20);
@@ -66,13 +67,13 @@ import java.util.Date;
         });
 
         // Crear área de texto para mostrar publicaciones
-        displayTextArea = new JTextArea(10, 40);
+        displayTextArea = new JTextArea(15, 40);
         displayTextArea.setEditable(false);
         JScrollPane displayScrollPane = new JScrollPane(displayTextArea);
         displayScrollPane.setBorder(BorderFactory.createTitledBorder("Publicaciones"));
 
         // Crear botones para navegación
-        perfilButton = new JButton("Perfil");
+        perfilButton = new JButton("Perfil              ");
         perfilButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,7 +89,7 @@ import java.util.Date;
             }
         });
 
-        hashtagsButton = new JButton("Hashtags");
+        hashtagsButton = new JButton("Hashtags        ");
         hashtagsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -156,7 +157,7 @@ import java.util.Date;
             String currentDate = dateFormat.format(new Date());
 
             // Formato del mensaje del tweet
-            String tweetMessage = usuarioActual + " escribió:\n“" + postText + "” el [" + currentDate + "]\n\n";
+            String tweetMessage = usuarios + " escribió:\n“" + postText + "” el [" + currentDate + "]\n\n";
 
             // Mostrar el mensaje en el área de texto de publicaciones
             displayTextArea.append(tweetMessage);
@@ -191,7 +192,6 @@ import java.util.Date;
         pantallaInicial.setVisible(true);
         this.dispose();
     }
-
 
 
     

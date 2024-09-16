@@ -1,12 +1,66 @@
 package red.social;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class Seguidos extends javax.swing.JFrame {
-
+    private JList<String> seguidosList;
+    private JButton regresarButton;
+    
     public Seguidos() {
-        initComponents();
+        // Crear componentes
+        seguidosList = new JList<>();
+        regresarButton = new JButton("Regresar");
+
+        // Configurar el cierre de la ventana
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        // Crear un panel para el contenido
+        JPanel panel = new JPanel();
+        panel.setLayout(new java.awt.BorderLayout());
+
+        // Configurar el JList y JScrollPane
+        JScrollPane scrollPane = new JScrollPane(seguidosList);
+        panel.add(scrollPane, java.awt.BorderLayout.CENTER);
+
+        // Agregar el botón de regresar en la parte inferior
+        panel.add(regresarButton, java.awt.BorderLayout.SOUTH);
+
+        // Establecer el contenido en el panel
+        getContentPane().add(panel);
+
+        // Ajustar propiedades de la ventana
+        setTitle("Seguidos");
+        setSize(350, 500);
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+
+        // Agregar ActionListener al botón de regresar
+        regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Cerrar la ventana actual
+                dispose();
+                // Abrir la ventana Perfil
+                Perfil perfil = new Perfil();
+                perfil.setVisible(true);
+            }
+        });
     }
 
+    // Método para establecer la lista de seguidos
+    public void setSeguidos(String[] seguidos) {
+        // Crear un DefaultListModel y agregar los usuarios seguidos
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String seguido : seguidos) {
+            listModel.addElement(seguido);
+        }
+        seguidosList.setModel(listModel);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -129,4 +183,6 @@ public class Seguidos extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+
+    
 }

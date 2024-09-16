@@ -1,21 +1,121 @@
 package red.social;
 
-import javax.swing.JOptionPane;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.util.HashSet;
 
 public class Hashtags extends javax.swing.JFrame {
-private Login log;
-private String HasthtagActual;
+    private JTextField hashtagField;
+    private JTextArea resultArea;
+    private JButton searchButton, backButton;
+    private String[] tweets; // Array que contiene todos los tweets
+    private String[] mostrados; // Array para evitar duplicados
+    private int contadorMostrados; // Contador de tweets ya mostrados
 
     public Hashtags() {
-        initComponents();
-        log=new Login();
+        // Configuración de la ventana
+        setTitle("Buscar Hashtags");
+        setSize(400, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+
+        // Campo de entrada para el hashtag
+        JLabel hashtagLabel = new JLabel("Buscar hashtag:");
+        hashtagLabel.setBounds(20, 20, 100, 30);
+        add(hashtagLabel);
+
+        hashtagField = new JTextField();
+        hashtagField.setBounds(130, 20, 150, 30);
+        add(hashtagField);
+
+        // Área de resultados (tweets encontrados)
+        resultArea = new JTextArea();
+        resultArea.setBounds(20, 70, 350, 200);
+        resultArea.setEditable(false); // No permitir la edición del área de texto
+        JScrollPane scrollPane = new JScrollPane(resultArea);
+        scrollPane.setBounds(20, 70, 350, 200);
+        add(scrollPane);
+
+        // Botón de buscar
+        searchButton = new JButton("Buscar");
+        searchButton.setBounds(290, 20, 80, 30);
+        add(searchButton);
+
+        // Botón para regresar al menú principal
+        backButton = new JButton("Regresar");
+        backButton.setBounds(150, 300, 100, 30);
+        add(backButton);
+
+        // Simulación de tweets con hashtags
+        tweets = new String[]{
+            "user1 escribió: “Amo la tecnología #Tech” el [Septiembre 2023]",
+            "user2 escribió: “Hoy es un gran día #Feliz” el [Septiembre 2023]",
+            "user3 escribió: “Nueva actualización en el proyecto #Tech” el [Agosto 2023]",
+            "user4 escribió: “Disfrutando de la vida #Feliz” el [Agosto 2023]",
+            "user5 escribió: “Aprendiendo Java #Programming” el [Septiembre 2023]"
+        };
+        mostrados = new String[tweets.length]; // Array para almacenar los tweets ya mostrados
+        contadorMostrados = 0;
+
+        // Acción del botón "Buscar"
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarHashtags();
+            }
+        });
+
+        // Acción del botón "Regresar"
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Lógica para regresar al menú principal (puedes cambiarlo según tu lógica)
+                MenuPrincipal menu = new MenuPrincipal(); // Crear una instancia del menú principal
+                menu.setVisible(true); // Mostrar el menú principal
+                dispose(); // Cerrar la ventana actual
+            }
+        });
     }
-    
+
+    // Método para buscar tweets con un hashtag
+    private void buscarHashtags() {
+        String hashtag = hashtagField.getText().trim();
+        if (!hashtag.startsWith("#")) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar un hashtag que comience con #");
+            return;
+        }
+
+        resultArea.setText(""); // Limpiamos el área de texto
+        contadorMostrados = 0; // Reiniciamos el contador de tweets mostrados
+
+        for (String tweet : tweets) {
+            if (tweet.contains(hashtag)) {
+                // Verificar si el tweet ya ha sido mostrado
+                boolean yaMostrado = false;
+                for (int i = 0; i < contadorMostrados; i++) {
+                    if (mostrados[i].equals(tweet)) {
+                        yaMostrado = true;
+                        break;
+                    }
+                }
+                // Si no ha sido mostrado, lo mostramos y lo añadimos a los mostrados
+                if (!yaMostrado) {
+                    resultArea.append(tweet + "\n");
+                    mostrados[contadorMostrados] = tweet;
+                    contadorMostrados++;
+                }
+            }
+        }
+
+        if (resultArea.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se encontraron tweets con ese hashtag.");
+        }
+    }
+
+  
 
     
-    
-
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -24,8 +124,6 @@ private String HasthtagActual;
         jPanel1 = new javax.swing.JPanel();
         Hasthtags = new javax.swing.JTextField();
         jToggleButton1 = new javax.swing.JToggleButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         Buscar = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -43,10 +141,6 @@ private String HasthtagActual;
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
-
         Buscar.setText("Buscar");
         Buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,14 +156,10 @@ private String HasthtagActual;
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(Buscar)
-                .addGap(48, 48, 48)
+                .addGap(26, 26, 26)
                 .addComponent(Hasthtags, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(101, 101, 101))
         );
@@ -80,9 +170,7 @@ private String HasthtagActual;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Buscar)
                     .addComponent(Hasthtags, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 368, Short.MAX_VALUE)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -167,8 +255,6 @@ private String HasthtagActual;
     private javax.swing.JToggleButton Buscar;
     private javax.swing.JTextField Hasthtags;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }
