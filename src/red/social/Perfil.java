@@ -20,12 +20,14 @@ public class Perfil extends javax.swing.JFrame {
     private JButton btnSeguidores;
     private JButton btnSeguidos;
     private JButton btnRegresar;
-    private Login log;
+    private static Login log;
     
-    public Perfil(){;
-        initComponents();
+     public Perfil(){
         mostrarDatosPerfil();
-        log=new Login();
+    }
+
+    public static void setLoginInstance(Login loginInstance) {
+        log = loginInstance;
     }
 
     private void mostrarDatosPerfil() {
@@ -40,11 +42,11 @@ public class Perfil extends javax.swing.JFrame {
         JLabel edadValor = new JLabel();
 
         // Obtener los datos del usuario registrado desde la clase Login
-        if (Login.UsuarioRegistrado != null) {
-            nombreValor.setText(Login.UsuarioRegistrado.getNombre());
-            usuarioValor.setText(Login.UsuarioRegistrado.getUsuario());
-            generoValor.setText(Login.UsuarioRegistrado.obtenerGeneros());
-            edadValor.setText(Login.UsuarioRegistrado.obtenerEdadades());
+        if (log != null && log.ObtenerInformacionUsuarioRegistrado() != null) {
+            nombreValor.setText(log.getNombre());
+            usuarioValor.setText(log.getUsuario());
+            generoValor.setText(log.obtenerGeneros());
+            edadValor.setText(log.obtenerEdadades());
         } else {
             nombreValor.setText("No disponible");
             usuarioValor.setText("No disponible");
@@ -138,7 +140,7 @@ public class Perfil extends javax.swing.JFrame {
         MenuPrincipal menuPrincipal = new MenuPrincipal();
         menuPrincipal.setVisible(true);
         this.dispose();
-    }    
+    }  
     
     
              
@@ -236,23 +238,8 @@ public class Perfil extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-      try{
-          for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
-      }
+      
+      
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Perfil().setVisible(true);
@@ -261,9 +248,6 @@ public class Perfil extends javax.swing.JFrame {
     }
    
 
-
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BuscarPersonass;
     private javax.swing.JLabel icono;
@@ -271,8 +255,6 @@ public class Perfil extends javax.swing.JFrame {
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     // End of variables declaration//GEN-END:variables
 
-   void mostrarPerfil(String usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    } 
+   
     
 }

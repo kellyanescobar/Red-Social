@@ -191,6 +191,8 @@ public class CrearCuenta extends javax.swing.JFrame {
         System.out.println("favor ingrese una contraseña valido");
     }   
     
+    
+    
     String[]Datos=new String[5];
     Datos[0]=nombre;
     Datos[1]=edad;

@@ -18,7 +18,8 @@ import java.util.Date;
     private JButton interaccionesButton;
     private JButton hashtagsButton;
     private JButton cerrarSesionButton;
-    private String usuarios; // Nombre del usuario actual
+    private String usuarios; 
+    private Login log;
 
     public MenuPrincipal() {
         setTitle("Menu Principal");
@@ -26,6 +27,7 @@ import java.util.Date;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        log=new Login();
 
         // Crear un JPanel para contener el logo y el texto "Duckling"
         JPanel logoPanel = new JPanel();
@@ -53,7 +55,7 @@ import java.util.Date;
         this.usuarios = loginInstance.getUsuario(); // Método no estático
 
         // Crear área de texto para ingresar publicaciones
-        postTextArea = new JTextArea(5, 20);
+        postTextArea = new JTextArea(15, 20);
         JScrollPane postScrollPane = new JScrollPane(postTextArea);
         postScrollPane.setBorder(BorderFactory.createTitledBorder("Escribe tu publicación"));
 
@@ -114,13 +116,12 @@ import java.util.Date;
         navigationPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Más espaciado
         navigationPanel.add(hashtagsButton);
 
-        // Crear panel para los componentes de publicación
         JPanel postPanel = new JPanel();
         postPanel.setLayout(new BorderLayout());
         postPanel.add(postScrollPane, BorderLayout.CENTER);
         postPanel.add(postButton, BorderLayout.SOUTH);
 
-        // Panel principal que contiene el panel de navegación y el área de publicaciones
+       
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(navigationPanel, BorderLayout.WEST); // Navegación a la izquierda
@@ -150,19 +151,12 @@ import java.util.Date;
     private void postButtonActionPerformed() {
         String postText = postTextArea.getText();
 
-        // Si el texto del post no está vacío
         if (!postText.trim().isEmpty()) {
-            // Obtener la fecha actual en el formato [dd/MM/yyyy]
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String currentDate = dateFormat.format(new Date());
 
-            // Formato del mensaje del tweet
-            String tweetMessage = usuarios + " escribió:\n“" + postText + "” el [" + currentDate + "]\n\n";
-
-            // Mostrar el mensaje en el área de texto de publicaciones
+            String tweetMessage = log.ObtenerInformacionUsuarioRegistrado()+ " escribio:\n“" + postText + "” el [" + currentDate + "]\n\n";
             displayTextArea.append(tweetMessage);
-
-            // Limpiar el área de texto de publicación
             postTextArea.setText("");
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, escribe algo antes de publicar.", "Error", JOptionPane.ERROR_MESSAGE);

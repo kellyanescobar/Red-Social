@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Login{
-     private static final int MAX_USUARIOS = 100;
+    private static final int MAX_USUARIOS = 100;
     private static int numUsuarios = 0;
 
     
@@ -386,7 +386,7 @@ public String getFechaIngreso(String usuario) {
                     "Edad"+UsuarioRegistrado.ObtenerEdad(UsuarioRegistrado.getUsuario())+"\n"+
                     "Genero:"+UsuarioRegistrado.ObtenerGenero(UsuarioRegistrado.getUsuario());
         }else{
-            return "Nungun usuario registrado";
+            return "Nunca usuario registrado";
         }
     }
      
@@ -473,14 +473,7 @@ public String getFechaIngreso(String usuario) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    void setNombre() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    void setUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
     String getNombre() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
